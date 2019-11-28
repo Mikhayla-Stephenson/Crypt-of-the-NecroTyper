@@ -1,5 +1,5 @@
 # Crypt of the NecroTyper
-A fun personal project which combines the core game mechanic of "Crypt of the Necrodancer" with "The Most Dangerous Writing App". Using the Spotify API this text editor app forces users to type to the beat of their favourite songs - too many misteps will cause their work to delete. 
+A fun personal project which combines the core game mechanic of [Crypt of the Necrodancer](https://en.wikipedia.org/wiki/Crypt_of_the_NecroDancer) with [The Most Dangerous Writing App](https://maebert.github.io/themostdangerouswritingapp/#/) Using the Spotify API this text editor app forces users to type to the beat of their favourite songs - too many misteps will cause their work to delete. 
 
 A work in progress inspired by the subbredit [r/badUIbattles](https://www.reddit.com/r/badUIbattles/).
 
