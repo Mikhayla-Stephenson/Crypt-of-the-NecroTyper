@@ -13,6 +13,7 @@ import MusicDisp from './MusicDisp';
 class Auth extends Component {
 	constructor() {
 		super();
+
 		this.state = {
 			token: null,
 			item: {
@@ -75,6 +76,44 @@ class Auth extends Component {
 			}
 		});
 	}
+	skipCurrentTrack(token, action) {
+		// Skip current track
+		let url = '';
+		let type = '';
+		switch (action) {
+			case 0:
+				url = 'https://api.spotify.com/v1/me/player/next';
+				type = 'POST';
+				break;
+			case 1:
+				url = 'https://api.spotify.com/v1/me/player/pause';
+				type = 'PUT';
+				break;
+			case 2:
+				url = 'https://api.spotify.com/v1/me/player/previous';
+				type = 'POST';
+				break;
+			case 3:
+				url = 'https://api.spotify.com/v1/me/player/play';
+				type = 'PUT';
+				break;
+			default:
+				url = 'https://api.spotify.com/v1/me/player/next';
+				type = 'POST';
+				break;
+		}
+		console.log(token);
+		$.ajax({
+			url: url,
+			type: type,
+			beforeSend: (xhr) => {
+				xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+			},
+			success: () => {
+				this.getCurrentlyPlaying(token);
+			}
+		});
+	}
 
 	getTrackInfo(id, token) {
 		// Find song tempo
@@ -101,23 +140,24 @@ class Auth extends Component {
 					//TODO: Create a minor delay in beatInterval so users can press a little before the exact beatInterval
 					setInterval(() => {
 						this.setState({
-							beat: this.state.beat + beatInterval
+							beat: this.state.beat + beatInterval - 200
 						});
-					}, beatInterval);
+						setTimeout(200);
+					}, beatInterval - 200);
 
 					// Updates song progress in ms and percent
 					setInterval(() => {
 						let progress = this.state.progress_ms / this.state.duration_ms * 100;
 
 						this.setState({
-							progress_ms: this.state.progress_ms + 100,
+							progress_ms: this.state.progress_ms + 50,
 							progress_percent: progress
 						});
 						//call api if current song is complete
 						if (this.state.progress_percent > 100) {
 							this.getCurrentlyPlaying(this.state.token);
 						}
-					}, 100);
+					}, 50);
 				}
 			}
 		});
@@ -129,7 +169,7 @@ class Auth extends Component {
 		let press = this.state.progress_ms;
 		let beat = this.state.beat;
 		console.log(beat, press);
-		if (press < beat + 200 && press > beat - 200) {
+		if (press < beat + 400 && press > beat) {
 			console.log('good');
 		} else {
 			console.log('bad');
@@ -175,7 +215,13 @@ class Auth extends Component {
 								</button>
 							</div>
 						)}
-						{this.state.token && <textarea id="input" placeholder="Start typing on the beat!" />}
+						{this.state.token && (
+							<textarea
+								id="input"
+								placeholder="Start typing on the beat!"
+								onKeyPress={() => this.handleKeyPress()}
+							/>
+						)}
 						{this.state.token && (
 							<div className="heartContainer">
 								<img id="heart" className="heart" src={heart} alt="this" />
@@ -183,12 +229,17 @@ class Auth extends Component {
 						)}
 					</Grid>
 				</Grid>
+
 				{this.state.token && (
 					<MusicDisp
 						img={this.state.item.album.images[0].url}
 						album={this.state.item.album.name}
 						name={this.state.item.name}
 						progress={this.state.progress_percent}
+						skip={() => this.skipCurrentTrack(this.state.token, 0)}
+						pause={() => this.skipCurrentTrack(this.state.token, 1)}
+						back={() => this.skipCurrentTrack(this.state.token, 2)}
+						play={() => this.skipCurrentTrack(this.state.token, 3)}
 					/>
 				)}
 			</div>

@@ -111,9 +111,12 @@ h4 {
 	}
 }
 .heartContainer {
-	height: 100px;
 	position: fixed;
-	width: 50px;
-	margin: 300 50 0 50;
-	bottom: 1vh;
+	display: inline-block;
+
+	width: 40px;
+	height: 40px;
+	left: 50%;
+	margin-left: -20px;
+	bottom: 10%;
 }

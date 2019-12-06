@@ -21,3 +21,10 @@ h3 {
 #progressbar {
 	margin-bottom: 50px;
 }
+.icon {
+	color: white;
+}
+.player {
+	display: table;
+	margin: 0 auto;
+}
