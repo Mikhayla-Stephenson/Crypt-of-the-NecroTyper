@@ -13,6 +13,4 @@ Using Spotify's developer console, create a Spotify app. In app settings, create
 Navigate to "./src/Helpers/configExample.js" and rename to "config.js". Paste App Id into indicated variable within config.js file.
 
 To run project locally:
-```
 npm install
-```
